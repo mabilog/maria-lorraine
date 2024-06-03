@@ -1,4 +1,9 @@
+import createNextIntlPlugin from "next-intl/plugin";
+
 /** @type {import('next').NextConfig} */
+
+const withNextIntl = createNextIntlPlugin();
+
 const nextConfig = {
   images: {
     dangerouslyAllowSVG: true,
@@ -11,4 +16,5 @@ const nextConfig = {
   },
 };
 
-export default nextConfig;
+// export default nextConfig;
+export default withNextIntl(nextConfig);

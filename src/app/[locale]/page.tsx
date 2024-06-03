@@ -1,7 +1,13 @@
 import Link from "next/link";
 
 async function getProjects() {
-  const response = await fetch(process.env.NEXT_HYGRAPH_ENDPOINT, {
+  const HYGRAPH_ENDPOINT = process.env.NEXT_HYGRAPH_ENDPOINT;
+
+  if (!HYGRAPH_ENDPOINT) {
+    throw new Error("HYGRAPH_ENDPOINT is not defined");
+  }
+
+  const response = await fetch(HYGRAPH_ENDPOINT, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -27,7 +33,7 @@ export default async function Home() {
   const projects = await getProjects();
   return (
     <div className="m-12">
-      <h1>Hygraph Implementation Guides demo</h1>
+      {/* <h1>Hygraph Implementation Guides demo</h1>
       <p className="text-lg mb-4">Click the links below to see other pages</p>
       <ul className="mb-8 list-disc list-inside">
         {projects.map((project: any) => {
@@ -39,7 +45,7 @@ export default async function Home() {
             </li>
           );
         })}
-      </ul>
+      </ul> */}
     </div>
   );
 }
