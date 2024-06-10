@@ -1,7 +1,0 @@
-query Navlink {
-  navlinks {
-    id
-    title
-    slug
-  }
-}

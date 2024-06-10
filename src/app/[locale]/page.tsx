@@ -1,36 +1,6 @@
 import Link from "next/link";
 
-async function getProjects() {
-  const HYGRAPH_ENDPOINT = process.env.NEXT_HYGRAPH_ENDPOINT;
-
-  if (!HYGRAPH_ENDPOINT) {
-    throw new Error("HYGRAPH_ENDPOINT is not defined");
-  }
-
-  const response = await fetch(HYGRAPH_ENDPOINT, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({
-      query: `query Projects {
-        projects {
-          title
-          slug
-          body {
-            text
-          }
-        }
-      }`,
-    }),
-  });
-  const json = await response.json();
-
-  return json.data.projects;
-}
-
 export default async function Home() {
-  const projects = await getProjects();
   return (
     <div className="m-12">
       {/* <h1>Hygraph Implementation Guides demo</h1>
