@@ -31,7 +31,7 @@ const Links = () => {
         <ul>
           {navlinks.map((link) => (
             <li key={link.id}>
-              <Link href={link.slug}> {link.title}</Link>
+              <Link href={`${locale}/${link.slug}`}> {link.title}</Link>
             </li>
           ))}
         </ul>

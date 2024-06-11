@@ -6,10 +6,10 @@ export default createMiddleware({
   defaultLocale: "en",
   // A list of all locales that are supported
   locales,
-  localePrefix: "always",
+  localePrefix: "as-needed",
 });
 
 export const config = {
   // Match only internationalized pathnames
-  matcher: ["/", "/(fr|en)/:path*"],
+  matcher: ["/", "/(en/fr)/:path*"],
 };

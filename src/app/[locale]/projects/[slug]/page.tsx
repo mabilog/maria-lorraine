@@ -1,47 +1,41 @@
+"use client";
 import Link from "next/link";
+import { useParams } from "next/navigation";
+import { useEffect, useState } from "react";
+import { Project, queryProject } from "../../services";
 
-async function getProject(slug: string) {
-  const HYGRAPH_ENDPOINT = process.env.NEXT_HYGRAPH_ENDPOINT;
+export default function Page() {
+  const { locale, slug }: { locale: string; slug: string } = useParams();
+  const [project, setProject] = useState<Project>();
 
-  if (!HYGRAPH_ENDPOINT) {
-    throw new Error("HYGRAPH_ENDPOINT is not defined");
-  }
+  useEffect(() => {
+    getProjectData();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
-  const response = await fetch(HYGRAPH_ENDPOINT, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({
-      query: `query Projects ($slug:String!) {
-        project(where: {slug:$slug}) {
-          title
-          slug
-          body {
-            text
-          }
-        }
-      }`,
-      variables: {
-        slug: slug,
-      },
-    }),
-  });
-
-  const json = await response.json();
-  return json.data.project;
-}
-
-export default async function Page({ params }: { params: { slug: string } }) {
-  const project = await getProject(params.slug);
+  const getProjectData = async () => {
+    try {
+      const res: Project = await queryProject(locale, slug);
+      console.log("res from /project/[slug]", res);
+      setProject(res);
+    } catch (error) {
+      console.error("Failed to fetch project", error);
+    }
+  };
 
   return (
     <div className="m-12">
-      <h1 className="text-5xl font-bold mb-4">{project.title}</h1>
-      <p className="text-lg mb-8">{project.body.text}</p>
+      {project ? (
+        <>
+          <h1 className="text-5xl font-bold mb-4">{project.title}</h1>
+          <div className="text-lg mb-8">{project.body}</div>
+        </>
+      ) : (
+        <div>theres no project like this i guess</div>
+      )}
 
       <p>
-        <Link href="/" className="underline">
+        <Link href={`${locale}/`} className="underline">
           Back to homepage
         </Link>
       </p>

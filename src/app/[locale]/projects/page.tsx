@@ -18,7 +18,7 @@ const Projects = () => {
   const getProjectsData = async () => {
     try {
       console.log("getprojectsData");
-      const res: Project[] = await queryProjects();
+      const res: Project[] = await queryProjects(locale);
       console.log("res", res);
       setProjects(res);
       console.log("what are we in for");
