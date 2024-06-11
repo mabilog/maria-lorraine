@@ -10,6 +10,13 @@ export type Navlink = {
   slug: string;
 };
 
+export type Project = {
+  id: string;
+  title: string;
+  description: string;
+  slug: string;
+};
+
 export const queryNavlinks = async (locale: string) => {
   const query = gql`
     query Navlink {
@@ -26,4 +33,30 @@ export const queryNavlinks = async (locale: string) => {
   );
 
   return navlinks;
+};
+
+export const queryProjects = async () => {
+  const query = gql`
+    query Projects {
+      projects {
+        title
+        slug
+        description
+      }
+      # projects(locales: [${locale}]) {
+      #   title
+      #   slug
+      #   description
+      # }
+    }
+  `;
+
+  // const { projects }: { projects: Project[] } = await graphQlClient.request(
+  //   query
+  // );
+  const response = await graphQlClient.request(query);
+
+  console.log("response from the back", response);
+
+  return response.projects;
 };

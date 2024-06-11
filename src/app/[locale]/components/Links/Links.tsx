@@ -6,13 +6,15 @@ import { Link } from "@/navigation";
 
 const Links = () => {
   const { locale }: { locale: string } = useParams();
-
   const [navlinks, setNavlinks] = useState<Navlink[]>([]);
 
   useEffect(() => {
     getNavlinksData();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+  useEffect(() => {
+    console.log("navlinks", navlinks);
+  }, [navlinks]);
 
   const getNavlinksData = async () => {
     try {
@@ -34,7 +36,7 @@ const Links = () => {
           ))}
         </ul>
       ) : (
-        <></>
+        <>nothing to see here</>
       )}
     </>
   );
