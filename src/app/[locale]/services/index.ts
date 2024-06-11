@@ -4,10 +4,16 @@ const graphQlClient = new GraphQLClient(
   process.env.NEXT_PUBLIC_HYGRAPH_ENDPOINT!
 );
 
-export const queryNavlinks = async () => {
+export type Navlink = {
+  id: string;
+  title: string;
+  slug: string;
+};
+
+export const queryNavlinks = async (locale: string) => {
   const query = gql`
     query Navlink {
-      navlinks {
+      navlinks(locales: [${locale}]) {
         id
         title
         slug
@@ -15,6 +21,9 @@ export const queryNavlinks = async () => {
     }
   `;
 
-  const response = await graphQlClient.request(query);
-  return response;
+  const { navlinks }: { navlinks: Navlink[] } = await graphQlClient.request(
+    query
+  );
+
+  return navlinks;
 };

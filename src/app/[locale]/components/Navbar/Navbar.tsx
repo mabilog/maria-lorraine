@@ -1,27 +1,14 @@
-"use client";
-import { useState, useEffect } from "react";
-import { queryNavlinks } from "../../services";
-
-type Navlink = {
-  id: string;
-  title: string;
-  slug: string;
-};
+import React from "react";
+import Links from "../Links/Links";
+import Localization from "../Localization/Localization";
 
 const Navbar = () => {
-  const [navlinks, setNavlinks] = useState([]);
-
-  useEffect(() => {
-    getNavlinksData();
-  }, []);
-
-  const getNavlinksData = async () => {
-    const res = await queryNavlinks();
-    setNavlinks(res.navlinks);
-    return;
-  };
-
-  return <div>Navbar</div>;
+  return (
+    <div>
+      <Links />
+      <Localization />
+    </div>
+  );
 };
 
 export default Navbar;
